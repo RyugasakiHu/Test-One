@@ -1,5 +1,7 @@
-#http://www.codeskulptor.org/#user39_KIWU7tO0XA_0.py
-#focus on the paddle and ctrl next time
+#http://www.codeskulptor.org/#user39_mGoLDP1pHg_1.py
+#focus on circle collision first
+#then initial state
+#then score
 import simplegui
 import random
 
@@ -15,8 +17,16 @@ left = False
 right = True
 ball_pos = [w/2,h/2]
 ball_vel = 0
-paddle1_pos = [w/2,0]
-paddle2_pos = [w/2,h]
+A = [0,h/2 - half_pad_h]
+B = [0,h/2 + half_pad_h]
+C = [pad_w,h/2 + half_pad_h]
+D = [pad_w,h/2 - half_pad_h]
+paddle1_pos = A,B,C,D
+E = [w - pad_w,h/2 - pad_h/2]
+F = [w - pad_w,h/2 + pad_h/2]
+G = [w,h/2 + pad_h /2]
+H = [w,h/2 - pad_h/2]
+paddle2_pos = E,F,G,H
 paddle1_vel = 0
 paddle2_vel = 0
 score1 = 0
@@ -31,9 +41,11 @@ def spawn_ball(direction):
 def new_game():
     global paddle1_pos,paddle2_pos,paddle1_vel,paddle2_vel
     global score1,score2
+    paddle1_vel = 0
+    paddle2_vel = 0
     
 def draw(c):
-    global score1,score2,paddle1_pos,paddle2_pos,ball_pos,ball_vel
+    global score1,score2,paddle1_pos,paddle2_pos,ball_pos,ball_vel,A,B,C,D
     
     #draw mid line and gutters
     c.draw_line([w/2,0],[w/2,h],1,'White')
@@ -44,16 +56,69 @@ def draw(c):
     #draw ball
     
     #update paddle`s velical position,keep paddle on the screen
+    #paddle1
+    A[1] += paddle1_vel
+    B[1] += paddle1_vel
+    C[1] += paddle1_vel
+    D[1] += paddle1_vel
     
+    if B[1] >= h :
+        A[1] = h - pad_h
+        D[1] = h - pad_h
+        B[1] = h 
+        C[1] = h 
+    elif A[1] <= 0 :
+        A[1] = 0
+        D[1] = 0 
+        B[1] = pad_h
+        C[1] = pad_h 
+        
+    #paddle2    
+    E[1] += paddle2_vel
+    F[1] += paddle2_vel
+    G[1] += paddle2_vel
+    H[1] += paddle2_vel
+    
+    if G[1] >= h :
+        E[1] = h - pad_h
+        H[1] = h - pad_h
+        G[1] = h 
+        F[1] = h 
+    elif E[1] <= 0 :
+        E[1] = 0
+        H[1] = 0 
+        G[1] = pad_h
+        F[1] = pad_h 
     #draw paddles
-    
+    c.draw_polygon(paddle1_pos, 1, 'White','White')
+    c.draw_polygon(paddle2_pos, 1, 'White','White')
     #draw scores
     
 def keydown(key):
     global paddle1_vel,paddle2_vel
+    #paddle1 move
+    if key==simplegui.KEY_MAP['w']:
+        paddle1_vel -= 6
+    elif key==simplegui.KEY_MAP['s']:
+        paddle1_vel += 6
+    #paddle2 move
+    if key==simplegui.KEY_MAP['up']:
+        paddle2_vel -= 6
+    elif key==simplegui.KEY_MAP['down']:
+        paddle2_vel += 6    
  
 def keyup(key):
     global paddle1_vel,paddle2_vel
+    #paddle1 stop
+    if key==simplegui.KEY_MAP['w']:
+        paddle1_vel =0
+    elif key==simplegui.KEY_MAP['s']:
+        paddle1_vel =0
+    #paddle2 stop
+    if key==simplegui.KEY_MAP['up']:
+        paddle2_vel = 0
+    elif key==simplegui.KEY_MAP['down']:
+        paddle2_vel = 0    
 
 #create frame
 frame = simplegui.create_frame('Pong',w,h)
