@@ -1,14 +1,11 @@
-#http://www.codeskulptor.org/#user39_mGoLDP1pHg_1.py
-#focus on circle collision first
-#then initial state
-#then score
+#http://www.codeskulptor.org/#user39_mGoLDP1pHg_3.py
+#next add score --- add acc ball velcity --- add inital position
 import simplegui
 import random
-
 #initialize globals
 w = 600
 h = 400
-br = 20
+br = 15
 pad_w = 8
 pad_h = 80
 half_pad_w = pad_w/2
@@ -16,7 +13,7 @@ half_pad_h = pad_h/2
 left = False
 right = True
 ball_pos = [w/2,h/2]
-ball_vel = 0
+ball_vel = [2,2]
 A = [0,h/2 - half_pad_h]
 B = [0,h/2 + half_pad_h]
 C = [pad_w,h/2 + half_pad_h]
@@ -34,9 +31,10 @@ score2 = 0
 
 #initialize ball_pos and ball_vel for new bal in middle of table
 #if direction is right so was the ball`s velocity,else left
-def spawn_ball(direction):
+def spawn_ball():
     global ball_pos,ball_vel
-
+    ball_vel = [2,2]
+    ball_pos = [w/2,h/2]
 #define event handlers    
 def new_game():
     global paddle1_pos,paddle2_pos,paddle1_vel,paddle2_vel
@@ -52,9 +50,10 @@ def draw(c):
     c.draw_line([pad_w,0],[pad_w,h],1,'White')
     c.draw_line([w-pad_w,0],[w-pad_w,h],1,'White')
     #update ball
-    
+    ball_pos[0] += ball_vel[0]
+    ball_pos[1] += ball_vel[1]
     #draw ball
-    
+    c.draw_circle(ball_pos,br,2,'White','White')
     #update paddle`s velical position,keep paddle on the screen
     #paddle1
     A[1] += paddle1_vel
@@ -91,7 +90,25 @@ def draw(c):
         F[1] = pad_h 
     #draw paddles
     c.draw_polygon(paddle1_pos, 1, 'White','White')
-    c.draw_polygon(paddle2_pos, 1, 'White','White')
+    c.draw_polygon(paddle2_pos, 1, 'White','White')    
+    #ball collision up down
+    if ball_pos[1] - br <= 0:
+        ball_vel[1] = -ball_vel[1]
+    if ball_pos[1] + br >= h:
+        ball_vel[1] = -ball_vel[1]
+    #ball collision left
+    if ball_pos[0] <= br + pad_w:
+        if D[1] <= ball_pos[1] <= C[1]:
+            ball_vel[0] = -ball_vel[0]
+        else:    
+            spawn_ball()
+    #ball collision right        
+    if ball_pos[0] + br >= w - pad_w:
+        if E[1] <= ball_pos[1] <= F[1]:
+            ball_vel[0] = -ball_vel[0]
+        else:    
+            spawn_ball()
+    
     #draw scores
     
 def keydown(key):
