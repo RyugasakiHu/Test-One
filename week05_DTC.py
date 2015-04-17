@@ -91,3 +91,38 @@ frame.set_draw_handler(draw)
 # start frame
 frame.start()
     
+#http://www.codeskulptor.org/#user39_At2zZDku5g_2.py
+def count_odd(numbers):
+    count = 0
+    for num in numbers:
+        if num % 2 ==1:
+            count += 1
+    return count  
+
+def check_odd(numbers):
+    odd = False
+    for num in numbers:
+        if num % 2 == 1:
+            odd = True
+    return odd        
+    
+def remove_odd2(numbers):
+    for num in numbers:
+        if num % 2 == 1:
+            numbers.remove(num)
+            
+def remove_odd3(numbers):
+    remove = []
+    for num in numbers:
+        if num % 2 == 1:
+            remove.append(num)
+          
+    for num in remove:
+        numbers.remove(num)
+def run():
+    numbers = [1,2,3,4,5,6,7,11,22,33,44,55,7]
+    print numbers
+    remove_odd2(numbers)
+    print numbers
+    
+run()    
