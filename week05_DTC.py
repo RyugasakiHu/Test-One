@@ -126,3 +126,47 @@ def run():
     print numbers
     
 run()    
+
+#http://www.codeskulptor.org/#user39_pBOTunF5O3_0.py
+
+import simplegui
+import random
+
+chipher = {}
+message = ''
+letters = 'abcdefghijklmnopqrstuvwxyz'
+
+def init():
+    letters_list = list(letters)
+    random.shuffle(letters_list)
+    for ch in letters:
+        chipher[ch] = letters_list.pop()
+    
+def encode():
+    emsg = ''
+    for ch in message:
+        emsg += chipher[ch]
+    print message + " " + 'encodes to' + " " + emsg
+        
+def decode():
+    dmsg = ''
+    for ch in message:
+        for key,value in chipher.items():
+            if ch == value:
+                dmsg += key
+    print message + " " + 'encodes to' + " " + dmsg
+
+def newmsg(msg):
+    global message
+    message = msg
+    label.set_text(msg)
+    return msg
+    
+frame = simplegui.create_frame('Cipher',2, 200, 200)     
+frame.add_input('Message:',newmsg,200)
+label = frame.add_label('',200)
+frame.add_button('Encode',encode)
+frame.add_button('Dncode',decode)
+
+init()
+frame.start()
