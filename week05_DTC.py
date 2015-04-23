@@ -170,3 +170,38 @@ frame.add_button('Dncode',decode)
 
 init()
 frame.start()
+
+#http://www.codeskulptor.org/#user39_pBOTunF5O3_1.py
+import simplegui
+
+image = simplegui.load_image('http://commondatastorage.googleapis.com/codeskulptor-assets/gutenberg.jpg')
+
+map_w = 1521
+map_h = 1818
+
+scale = 3
+
+can_w = map_w // scale
+can_h = map_h // scale
+
+mag_size = 120
+mag_pos = [can_w//2,can_h//2]
+
+def click(pos):
+    global mag_pos
+    mag_pos = list(pos)
+    
+def draw(canvas):
+    canvas.draw_image(image,
+                      [map_w//2,map_h//2],[map_w,map_h],
+                      [can_w//2,can_h//2],[can_w,can_h])
+    map_center = [scale * mag_pos[0],scale * mag_pos[1]]
+    map_rectangle = [mag_size,mag_size]
+    mag_center = mag_pos
+    mag_rectangle = [mag_size,mag_size]
+    canvas.draw_image(image,map_center,map_rectangle,mag_center,mag_rectangle)
+    
+frame = simplegui.create_frame('map',can_w,can_h)    
+frame.set_mouseclick_handler(click)
+frame.set_draw_handler(draw)
+frame.start()
