@@ -1,4 +1,6 @@
 #http://www.codeskulptor.org/#user39_Gv7hj1lOdi_0.py
+#it does not work
+#draw canvas first draw pos sec look tutorial
 import simplegui
 n=0
 memory = []
