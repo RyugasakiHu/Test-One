@@ -1,36 +1,39 @@
-#http://www.codeskulptor.org/#user39_Gv7hj1lOdi_0.py
-#it does not work
-#draw canvas first draw pos sec look tutorial
+#http://www.codeskulptor.org/#user39_Gv7hj1lOdi_2.py
+#draw work
+#draw flip 
 import simplegui
-n=0
 memory = []
 memory_list = []
-poly = [[(n-1)*40, 0],[(n-1)*40, 80],[(n-1)*80, 80],[(n-1)*80, 0]]
-#poly[0] = [(n-1)*40, 0] 
-#poly[1] = [(n-1)*40, 80]
-#poly[2] = [(n-1)*80, 80]
-#poly[3] = [(n-1)*80, 0]
+index = 0
 def new_game():
-    global n,memory   
-    if n < 8:
-        n += 1
-        for memory in memory_list:
-            memory_list.append(poly)
-    print n,memory_list
+    global state
+    state = 0
 
+def buttonclick(pos):
+    global state    
+    index = (pos[0]//40)+2
+    print index
+    if state == 0:
+        state = 1
+    elif state == 1:
+        state = 2
+    else:
+        state = 1
+    
 def draw(canvas): 
-    for memory in memory_list:                  
-        canvas.draw_polygon([poly[0],poly[1],poly[2],poly[3],], 1, 'Black', 'green')                   
-    print memory_list,n
-    #if n <= 8:
-        #canvas.draw_polygon([[(n-1)*40, 0], [(n-1)*40, 80], [(n-1)*80, 80], [(n-1)*80, 0]], 1, 'Black', 'green')
-        #n += 1
-
+    global index
+    for n in range(17):
+        if n != index:
+            canvas.draw_polygon([[(n-1)*40, 0],[(n-1)*40, 80],[40*n, 80],[40*n, 0]], 1, 'Black', 'green')                   
+        elif n == index:    
+            canvas.draw_text('B', [(n-1)*40-20, 20], 40, 'Blue')
 frame = simplegui.create_frame('Testing', 640, 80)
+frame.add_button('Restart',new_game,200)
+
+#register event handlers
 frame.set_draw_handler(draw)
-frame.start()
+frame.set_mouseclick_handler(buttonclick)
 
-
+#Get Rolling
 new_game()
-#mouse_click(pos)
-#draw(canvas)
+frame.start()
