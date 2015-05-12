@@ -1,4 +1,4 @@
-#http://www.codeskulptor.org/#user40_arFxNIlWNu_3.py
+#http://www.codeskulptor.org/#user40_arFxNIlWNu_4.py
 #draw basic ui(size)
 #draw flip (interactive UI,draw number)
 #record mouse input???
@@ -12,9 +12,8 @@ import simplegui
 import random
 
 def new_game():
-    global state,flipOne,flipTwo,moves,flip,num,turns
-    state,flipOne,flipTwo = 0,0,0
-    turns = 0
+    global state,flipOne,flipTwo,flip,num,turns
+    state,flipOne,flipTwo,turns = 0,0,0,0
     flip = [False]*16
     num = [i for i in range(8)]*2
     random.shuffle(num)
@@ -39,9 +38,9 @@ def buttonclick(pos):
     else:
         if num[flipOne] != num[flipTwo]:
             flip[flipOne],flip[flipTwo] = False,False
+            turns += 1
         flipOne = memory
-        flip[memory] = True    
-        turns += 1 
+        flip[memory] = True             
         state = 1
                     
     
