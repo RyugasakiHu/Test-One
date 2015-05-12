@@ -1,10 +1,13 @@
 #http://www.codeskulptor.org/#user39_A7ClIfU8Xa_1.py
-#draw work(basic ui)
+#draw basic ui
 #draw flip (interactive UI)
 #record mouse input???
-#flip twice (set list for expose)
+#flip (set list for expose)
 #set random(random_list)
+#flip twice
 #compare memory 
+#unflip function
+#streamline
 import simplegui
 import random
 
